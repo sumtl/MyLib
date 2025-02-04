@@ -61,7 +61,6 @@ def main():
                 sauvegarder_books(books)
 
         elif choix == 2:
-
             while True:  
                 print(
                     "\nOption 2 \n--- Menu des utilisateur ---\n1: Ajouter. \n2: Supprimer. \n3. Revenir au menu principal.")
@@ -102,17 +101,16 @@ def main():
 
 
         elif choix == 4:
-            count =list_most_borrowed_books(books)
+            borrowed_books =list_most_borrowed_books(books)
 
         elif choix == 5:
             genre_durations = calculate_average_loan_duration_by_genre(books,loans)
 
         elif choix == 6:
-            users=list_most_active_users(users)
+            active_users =list_most_active_users(users)
 
         elif choix == 7:
-
-            books, loans, users = afficher_statistiques(books, loans, users)
+            books, users, loans = afficher_statistiques(books, users, loans)
 
         elif choix == 8:
             pass#visualize_loans_by_genre(library)

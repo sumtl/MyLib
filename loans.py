@@ -23,10 +23,6 @@ def emprunts_livres(books, users, loans):
 
     # Demander l'ID de l'utilisateur à emprunter un livre
     while True:
-        #Vérifier si dictionnaire vide ou aucun exemplaire disponible  avant chaque emprunt.
-        #if not books or all(book.get("Exemplaires", 0) == 0 for book in books.values()):
-            #print("Aucun livre disponible dans la bibliothèque pour emprunter.")
-            #return books, users, loans
 
         user_id = get_valid_user_id(users)
         # Annuler si l'utilisateur choisit d'annuler
@@ -71,23 +67,6 @@ def emprunts_livres(books, users, loans):
             print(loans)
             return books, users, loans
 
-"""
-            #Vérifier si dictionnaire vide ou aucun exemplaire disponible  avant/après chaque emprunt.
-            if not books or all(book.get("Exemplaires", 0) == 0 for book in books.values()):
-                print("Aucun livre disponible dans la bibliothèque pour emprunter.")
-                return books,users,loans  # Exit the function if no books are left
-
-            # Demander à l'utilisateur s'il souhaite emprunter un autre livre pour ce même ID
-            if not demander_confirmation(f"Voulez-vous emprunter un autre livre pour l'utilisateur avec ID {user_id} -- {users[user_id]['Nom']} {users[user_id]['Prénom']} ? (o/n): "):
-                break  # Quitter la boucle des livres si l'utilisateur ne veut pas en emprunter un autre
-
-        if not books or all(book["Exemplaires"] == 0 for book in books.values()):
-            print("Aucun livre disponible dans la bibliothèque pour emprunter.")
-            return books,users,loans
-
-        
-
-"""
 
 
 def retour_livres(books, users, loans):
@@ -181,19 +160,19 @@ def list_most_borrowed_books(books):
     if books is None:
         print("Error: La bibliothèque est vide.")
         return []
-    count = []
+    borrowed_books = []
     for nom_item in books:
-        count.append((nom_item,books[nom_item]["Emprunts"]))
-    for i in range(len(count)):
-        for j in range(i + 1, len(count)):
-            if count[i][1]< count[j][1]:
-                count[i], count[j] = count[j], count[i]
+        borrowed_books.append((nom_item,books[nom_item]["Emprunts"]))
+    for i in range(len(borrowed_books)):
+        for j in range(i + 1, len(borrowed_books)):
+            if borrowed_books[i][1]<borrowed_books[j][1]:
+                borrowed_books[i], borrowed_books[j] = borrowed_books[j], borrowed_books[i]
 
     print("\nLes 5 livres ayant le plus grand nombre d’emprunts:\n")
-    for book,emprunts in count[:5]:
+    for book,emprunts in borrowed_books[:5]:
         print(f"Titre: {book}, Nombre d'emprunts: {emprunts}\n")
-    print(count)
-    return count
+    print(borrowed_books)
+    return borrowed_books
 
 
 def list_most_active_users(users):
@@ -201,21 +180,21 @@ def list_most_active_users(users):
         print("Error: Utilisateurs vides.")
         return []
 
-    count = []
+    active_users = []
     for user_id, user_info in users.items():
-        count.append((user_id,user_info["Nom"],user_info["Prénom"],user_info["Emprunts"]))
+        active_users.append((user_id,user_info["Nom"],user_info["Prénom"],user_info["Emprunts"]))
 
-    for i in range(len(count)):
-        for j in range(i + 1, len(count)):
-            if count[i][3] < count[j][3]:
-                count[i], count[j] = count[j], count[i]
+    for i in range(len(active_users)):
+        for j in range(i + 1, len(active_users)):
+            if active_users[i][3] < active_users[j][3]:
+                active_users[i], active_users[j] = active_users[j], active_users[i]
 
     print("Les 3 utilisateurs ayant emprunté le plus de livres:")
-    for user in count[:3]:  #same as "for i in range(min(3, len(utilisateurs_actifs))):"
+    for user in active_users[:3]:  #same as "for i in range(min(3, len(utilisateurs_actifs))):"
         user_id, nom, prenom, emprunts_count = user
         print(f"ID: {user_id}, Nom: {nom}, Prénom: {prenom}, Nombre de livres empruntés: {emprunts_count}")
-    print(count)
-    return count
+    print(active_users)
+    return active_users
 
 
 def afficher_statistiques (books, users, loans):
@@ -223,21 +202,17 @@ def afficher_statistiques (books, users, loans):
     total_livres = len(books)
 
     # 2. Nombre total d’exemplaires empruntés
-    total_empruntes = 0
-    for book in books:
-        total_empruntes += books[book]["Emprunts"]
-
     # 3. Pourcentage d’exemplaires actuellement disponibles
-    total_exemplaires = 0
     total_empruntes = 0
+    livres_disponibles = 0
     for book in books:
         total_empruntes += books[book]["Emprunts"]
-        total_exemplaires += books[book]["Exemplaires"]
-
-        if total_exemplaires == 0:
-            print("La bibliothèque est vide. Impossible de calculer le pourcentage d'exemplaires actuellement disponibles.")
-            return
-    pourcentage_exemplaires_disponibles =  (total_exemplaires / total_livres) * 100
+        if books[book]["Exemplaires"] > 0:
+            livres_disponibles += 1
+    if livres_disponibles == 0:
+        print("La bibliothèque est vide. Impossible de calculer le pourcentage d'exemplaires actuellement disponibles.")
+        return
+    pourcentage_exemplaires_disponibles =  (livres_disponibles / total_livres) * 100
 
     # 4. Nombre moyen de livres empruntés par utilisateur
     total_users = len(users)

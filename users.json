@@ -4,10 +4,11 @@
         "Pr\u00e9nom": "Cc",
         "Email": "cc@gmail.com",
         "T\u00e9l\u00e9phone": "098-765-4321",
-        "Emprunts": 2,
+        "Emprunts": 3,
         "ListeLivreLu": [
             "Book1",
-            "The Great Gatsby"
+            "The Great Gatsby",
+            "Book4"
         ]
     },
     "1": {

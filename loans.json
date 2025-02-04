@@ -52,5 +52,11 @@
         "Livre": "Python Programming",
         "Date_Emprunt": "2025-02-02",
         "Date_Retour": null
+    },
+    {
+        "Utilisateur_ID": 2,
+        "Livre": "Book4",
+        "Date_Emprunt": "2025-02-03",
+        "Date_Retour": null
     }
 ]

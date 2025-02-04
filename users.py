@@ -1,5 +1,7 @@
-from books import *
+import books
 from loans import *
+import json
+
 
 users = {}
 id_users = 0
@@ -7,11 +9,11 @@ def get_valid_email():
 
     while True:
         # Demande à l'utilisateur d'entrer son adresse courriel et la convertit en minuscules
-        email_user = input("Entrez l'adresse courriel de l'utilisateur (doit se terminer par @gmail.com): ").lower()
+        email_user = input("Entrez l'adresse courriel de l'utilisateur (doit se terminer par @gmail.com): ").strip().lower()
 
         # Validate email ending with "@gmail.com"
-        if not email_user.endswith("@gmail.com"):
-            print("Erreur: Vous devez entrer une adresse courriel contenant l'extension 'gmail.com'.")
+        if not email_user.endswith("@gmail.com")or email_user == "@gmail.com":
+            print("\nErreur: L'adresse courriel doit avoir au moins un caractère avant @gmail.com .\n")
         else:
             return email_user
 
@@ -40,7 +42,7 @@ def ajouter_users(users, id_users):
         phone_user = get_valid_phone()
 
 
-        if demander_confirmation(f"Voulez-vous ajouter l'utilisateur {nom_user} ? (o/n): "):
+        if books.demander_confirmation(f"Voulez-vous ajouter l'utilisateur {nom_user} ? (o/n): "):
             emprunts_user = 0  #  no emprunts pour le moment
             listelivrelu = []  # Initialize ListeLivreLu as an empty list
 
@@ -137,7 +139,7 @@ def supprimer_users(users,loans):
                 )
 
         # Demande confirmation pour supprimer l'utilisateur
-        if demander_confirmation(confirmation_message):
+        if books.demander_confirmation(confirmation_message):
             # Supprime l'utilisateur de la bibliothèque
             del users[user_id_supprimer]
             print(f"\nL'utilisateur avec l'ID {user_id_supprimer} a été supprimé avec succès.\n")

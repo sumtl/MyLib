@@ -1,9 +1,10 @@
 
 
 
-
+import json
 from users import *
-
+import books
+from loans import *
 from datetime import datetime
 
 def get_valid_books(books):
@@ -121,7 +122,7 @@ def retour_livres(books, users, loans):
         print(f"Le livre '{book_to_return}' a été retourné avec succès.")
 
         # Ask if they want to return another book
-        if not demander_confirmation("Voulez-vous retourner un autre livre ? (o/n): "):
+        if not books.demander_confirmation("Voulez-vous retourner un autre livre ? (o/n): "):
             break  # Stop if they don't want to return more
 
     return books, users, loans

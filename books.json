@@ -20,7 +20,7 @@
     "Book4": {
         "Auteur": "Fw",
         "Genre": "Roman",
-        "Exemplaires": 7,
-        "Emprunts": 3
+        "Exemplaires": 6,
+        "Emprunts": 4
     }
 }

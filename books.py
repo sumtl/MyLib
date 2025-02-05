@@ -1,8 +1,8 @@
 
 
-#import json
+
 from loans import *
-#from datetime import datetime
+
 
 
 def demander_confirmation(message):

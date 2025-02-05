@@ -236,37 +236,6 @@ def afficher_statistiques (books, users, loans):
     print(f"Nombre moyen de livres empruntés par utilisateur: {moyenne_emprunts_utilisateur:.2f}")
     return books, users,loans
 
-def sauvegarder_loans(loans,fichier="loans.json"):
-    with open(fichier,"w") as file:
-        json.dump(loans,file,indent=4)
-    print("Les emprunts ont bien été sauvegardés.")
-"""
-def charger_loans(fichier="loans.json"):
-    global loans
-    with open(fichier, "r") as file:
-        loans = json.load(file)
-    print("Les emprunts ont bien été chargés.")
-    print(loans)
-"""
-def charger_loans(fichier="loans.json"):
-    try:
-        with open(fichier, "r") as file:
-            loans = json.load(file)
-            if loans is None:  # Check if the file is empty or invalid
-                raise ValueError("Le fichier loans.json est vide ou invalide.")
-            print("Les emprunts ont bien été chargés.")
-            print(loans)
-            return loans
-    except FileNotFoundError:
-        print(f"Erreur: Le fichier {fichier} n'a pas été trouvé.")
-        loans = []  # Set loans to an empty list to avoid errors in the program
-    except json.JSONDecodeError:
-        print("Erreur: Le fichier loans.json est mal formaté.")
-        loans = []  # Set loans to an empty list
-    except Exception as e:
-        print(f"Erreur inattendue: {e}")
-        loans = []  # Set loans to an empty list
-
 
 
 

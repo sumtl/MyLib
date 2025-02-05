@@ -150,32 +150,4 @@ def supprimer_users(users,loans):
     return users,loans
 
 
-def sauvegarder_users(users,fichier ="users.json"):
-    with open(fichier,"w") as f:
-        json.dump(users,f,indent=4)
-    print("Les utilisateurs ont bien été sauvegardés.")
-"""
-def charger_users(fichier ="users.json"):
-    global users
-    with open(fichier,"r") as f:
-        users=json.load(f)
-    print("Les utilisateurs ont bien été chargés.")
-"""
-def charger_users(fichier="users.json"):
-    try:
-        with open(fichier, "r") as file:
-            users = json.load(file)
-            users = {int(key): value for key, value in users.items()}
-        print("Les utilisateurs ont bien été chargés.")
-        print(users)  # Debugging: Afficher les utilisateurs chargés
-    except FileNotFoundError:
-        print(f"Erreur : Le fichier {fichier} n'a pas été trouvé.")
-        users = {}  # Si le fichier n'existe pas, on initialise users comme un dictionnaire vide
-    except json.JSONDecodeError:
-        print(f"Erreur : Le fichier {fichier} n'est pas un fichier JSON valide.")
-        users = {}  # Si le fichier n'est pas un JSON valide, on initialise users comme un dictionnaire vide
-    except Exception as e:
-        print(f"Erreur inconnue lors du chargement de {fichier}: {e}")
-        users = {}
-    return users
 

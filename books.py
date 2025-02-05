@@ -115,35 +115,5 @@ def supprimer_livres(books,loans):
         return books,loans
 
 
-def sauvegarder_books(books,fichier ="books.json"):
-    with open(fichier,"w") as f:
-        json.dump(books,f,indent=4)
-    print("Les livres ont bien été sauvegardés.")
-
-"""
-def charger_books(fichier="books.json"):
-    global books
-    with open(fichier,"r")as f:
-        books = json.load(f)
-    print("Les livres ont bien été chargés.")
-
-"""
-def charger_books(fichier="books.json"):
-    try:
-        with open(fichier, "r") as file:
-            books = json.load(file)
-        print("Les livres ont bien été chargés.")
-        print(books)# Debugging: Afficher les livres chargés
-        print(type(books))
-    except FileNotFoundError:
-        print(f"Erreur : Le fichier {fichier} n'a pas été trouvé.")
-        books = {}  # Si le fichier n'existe pas, on initialise books comme un dictionnaire vide
-    except json.JSONDecodeError:
-        print(f"Erreur : Le fichier {fichier} n'est pas un fichier JSON valide.")
-        books = {}  # Si le fichier n'est pas un JSON valide, on initialise books comme un dictionnaire vide
-    except Exception as e:
-        print(f"Erreur inconnue lors du chargement de {fichier}: {e}")
-        books = {}
-    return books
 
 

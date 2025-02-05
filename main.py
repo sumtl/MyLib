@@ -2,6 +2,7 @@
 from books import *
 from users import *
 from loans import *
+from data import *
 
 """
 def main():
@@ -19,9 +20,10 @@ def main():
     #loans = []
     users = {}
     id_users = 0
-    books=charger_books()
-    users=charger_users()
-    loans=charger_loans()
+    #initialiser_csv()   #test
+    books, users, loans = charger_csv()
+
+
 
     while True:
         print("\n--- Menu Principal ---")
@@ -49,16 +51,16 @@ def main():
                 sous_choix = input("\nEntrez votre choix ：\n")
                 if sous_choix == "1":
                     books =ajouter_livres(books)
-                    sauvegarder_books(books)
+                    sauvegarder_csv(books, users, loans)
                 elif sous_choix == "2":
                     books,loans = supprimer_livres(books,loans)
-                    sauvegarder_books(books)
+                    sauvegarder_csv(books, users, loans)
                 elif sous_choix == "3":  
                     break
                 else:   
                     print("\nChoix invalide. Veuillez entrer l'un des numéros suivants :1, 2 ou 3.\n")
                     continue
-                sauvegarder_books(books)
+
 
         elif choix == 2:
             while True:  
@@ -67,10 +69,10 @@ def main():
                 sous_choix = input("\nEntrez votre choix : \n")
                 if sous_choix == "1":
                     users, id_users = ajouter_users(users, id_users)
-                    sauvegarder_users(users)
+                    sauvegarder_csv(books, users, loans)
                 elif sous_choix == "2":
                     users,loans = supprimer_users(users,loans)
-                    sauvegarder_users(users)
+                    sauvegarder_csv(books, users, loans)
                 elif sous_choix == "3":
                     break
                 else:
@@ -85,14 +87,10 @@ def main():
                 sous_choix = input("\nEntrez votre choix : \n")
                 if sous_choix == "1":
                     books, users, loans = emprunts_livres(books, users, loans)
-                    sauvegarder_loans(loans)
-                    sauvegarder_users(users)
-                    sauvegarder_books(books)
+                    sauvegarder_csv(books, users, loans)
                 elif sous_choix == "2":
                     books, users, loans = retour_livres(books, users, loans)
-                    sauvegarder_loans(loans)
-                    sauvegarder_users(users)
-                    sauvegarder_books(books)
+                    sauvegarder_csv(books, users, loans)
                 elif sous_choix == "3":
                     break
                 else:

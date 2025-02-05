@@ -1,10 +1,10 @@
 
 
 
-import json
+#import json
 from users import *
-import books
-from loans import *
+
+
 from datetime import datetime
 
 def get_valid_books(books):
@@ -18,65 +18,76 @@ def get_valid_books(books):
     return False
 
 def emprunts_livres(books, users, loans):
-    print (books)
-    if not get_valid_books(books):  # Check for available books before any action
-        return books, users, loans
+    print (books) #test
+    print(users) #test
+    print(loans) #test
 
-    # Demander l'ID de l'utilisateur à emprunter un livre
-    while True:
-
-        user_id = get_valid_user_id(users)
-        # Annuler si l'utilisateur choisit d'annuler
-        if user_id is None:
-            return books, users, loans
-
-        # Boucle pour permettre d'emprunter plusieurs livres
-        while True:
-        # Demander le titre du livre à emprunter
-            nom_emprunts = input("Entrez le nom du livre à emprunter: ").strip().title()
-        # Vérifier si le livre existe dans la bibliothèque
-            if nom_emprunts not in books:
-                print(f"Erreur :Ce livre '{nom_emprunts}' n'est pas disponible dans la bibliothèque.")
-                continue
-        # Vérifier si le livre est disponible
-            if books[nom_emprunts]["Exemplaires"] <= 0:
-                print(f"Erreur:Ce livre '{nom_emprunts}' n'est pas disponible actuellement.")
-                continue
-            if nom_emprunts in users[user_id]["ListeLivreLu"]:
-                print(f"Erreur : L'utilisateur avec l'ID {user_id} a déjà emprunté le livre '{nom_emprunts}'.")
-                continue
-            # Enregistrer l'emprunt (date d'emprunt)
-            date_emprunt = datetime.now().strftime("%Y-%m-%d")
-            emprunt = {
-                "Utilisateur_ID": user_id,
-                "Livre": nom_emprunts,
-                "Date_Emprunt": date_emprunt,
-                "Date_Retour": None  # Pas de date de retour au moment de l'emprunt
-        }
-            # Ajouter l'emprunt à la liste des emprunts
-            loans.append(emprunt)
-            # Réduire le nombre d'exemplaires du livre dans le stock
-            books[nom_emprunts]["Exemplaires"] -= 1
-            books[nom_emprunts]["Emprunts"] += 1
-            # Ajouter ce livre à la liste des livres empruntés de l'utilisateur,sans répétition
-            if nom_emprunts not in users[user_id]["ListeLivreLu"]:
-                users[user_id]["ListeLivreLu"].append(nom_emprunts)
-            # Mettre à jour le nombre d'emprunts de l'utilisateur
-            users[user_id]["Emprunts"] += 1
-            # Afficher un message de confirmation
-            print(f"L'emprunt du livre '{nom_emprunts}' par l'utilisateur avec ID {user_id} a été effectué avec succès.")
-            print(loans)
-            return books, users, loans
-
-
-
-def retour_livres(books, users, loans):
     user_id = get_valid_user_id(users)
     if user_id is None:
         return books, users, loans
 
+    if not get_valid_books(books):  # Check for available books before any action
+        return books, users, loans
+
+
+    while True:
+
+        nom_emprunts = input("Entrez le nom du livre à emprunter(ou appuyez sur Entrée pour annuler): ").strip().title()
+
+            #appuie sur Entrée sans rien taper, on annule l'opération
+        if nom_emprunts == "":
+            print("\nOpération annulée.")
+            return books, users, loans
+        # Vérifier si le livre existe dans la bibliothèque
+        if nom_emprunts not in books:
+            print(f"Erreur :Ce livre '{nom_emprunts}' n'est pas disponible dans la bibliothèque.")
+            continue
+        # Vérifier si le livre est disponible
+        if books[nom_emprunts]["Exemplaires"] <= 0:
+            print(f"Erreur:Ce livre '{nom_emprunts}' n'est pas disponible actuellement.")
+            continue
+        if nom_emprunts in users[user_id]["ListeLivreLu"]:
+            print(f"Erreur : L'utilisateur avec l'ID {user_id} a déjà emprunté le livre '{nom_emprunts}'.")
+            continue
+            # Enregistrer l'emprunt (date d'emprunt)
+        date_emprunt = datetime.now().strftime("%Y-%m-%d")
+        emprunt = {
+            "Utilisateur_ID": user_id,
+            "Livre": nom_emprunts,
+            "Date_Emprunt": date_emprunt,
+            "Date_Retour": None  # Pas de date de retour au moment de l'emprunt
+        }
+            # Ajouter l'emprunt à la liste des emprunts
+        loans.append(emprunt)
+        # Réduire le nombre d'exemplaires du livre dans le stock
+        books[nom_emprunts]["Exemplaires"] -= 1
+        books[nom_emprunts]["Emprunts"] += 1
+        # Ajouter ce livre à la liste des livres empruntés de l'utilisateur,sans répétition
+        if nom_emprunts not in users[user_id]["ListeLivreLu"]:
+            users[user_id]["ListeLivreLu"].append(nom_emprunts)
+            # Mettre à jour le nombre d'emprunts de l'utilisateur
+        users[user_id]["Emprunts"] += 1
+            # Afficher un message de confirmation
+        print(f"L'emprunt du livre '{nom_emprunts}' par l'utilisateur avec ID {user_id} a été effectué avec succès.")
+        print(loans)
+        return books, users, loans
+
+
+def retour_livres(books, users, loans):
+    print (books) #test
+    print(users) #test
+    print(loans) #test
+
+    user_id = get_valid_user_id(users)
+    if user_id is None:
+        return books, users, loans
+
+    if not get_valid_books(books):  # Check for available books before any action
+        return books, users, loans
+
     # Get books borrowed by this user
     user_loans = []
+
     for loan in loans:
         if "Utilisateur_ID" not in loan or "Date_Retour" not in loan:
             print(f"Erreur: Données manquantes dans l'emprunt: {loan}")
@@ -87,14 +98,19 @@ def retour_livres(books, users, loans):
 
     if not user_loans:
         print(f"L'utilisateur avec l'ID {user_id} n'a aucun livre à retourner.")
-        return loans, books, users
+        return books, users,loans
 
     print(f"Livres empruntés par {users[user_id]['Nom']} {users[user_id]['Prénom']} :")
     for loan in user_loans:
         print(f"- {loan['Livre']} (Emprunté le {loan['Date_Emprunt']})")
 
     while True:
-        book_to_return = input("Entrez le nom du livre à retourner : ").strip().title()
+        book_to_return = input("Entrez le nom du livre à retourner (ou appuyez sur Entrée pour annuler) : ").strip().title()
+
+        # if we don't want to return a book
+        if book_to_return == "":
+            print("\nOpération annulée.")
+            return books,users,loans
 
         # Find the matching loan manually
         matching_loan = None
@@ -113,19 +129,9 @@ def retour_livres(books, users, loans):
         # Update book inventory
         books[book_to_return]["Exemplaires"] += 1
 
-        # Remove the book from the user's borrowed list
-        users[user_id]["ListeLivreLu"].remove(book_to_return)
-
-        # Update the user's borrow count
-        users[user_id]["Emprunts"] -= 1
-
         print(f"Le livre '{book_to_return}' a été retourné avec succès.")
 
-        # Ask if they want to return another book
-        if not books.demander_confirmation("Voulez-vous retourner un autre livre ? (o/n): "):
-            break  # Stop if they don't want to return more
-
-    return books, users, loans
+        return books, users, loans
 
 def calculate_average_loan_duration_by_genre(books,loans):
     #print(type(books))----test

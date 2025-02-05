@@ -1,6 +1,6 @@
 import books
 from loans import *
-import json
+#import json
 
 
 users = {}
@@ -75,7 +75,7 @@ def get_valid_user_id(users):
         # Demande à l'utilisateur d'entrer l'ID
         user_id_input = input("\nEntrez l'ID de l'utilisateur(ou appuyez sur Entrée pour annuler): ")
 
-        # Si l'utilisateur appuie sur Entrée sans rien taper, on annule l'opération
+        #  appuie sur Entrée sans rien taper, on annule l'opération
         if user_id_input == "":
             print("\nOpération annulée.")
             return None

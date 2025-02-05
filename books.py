@@ -1,8 +1,8 @@
 
 
-import json
+#import json
 from loans import *
-from datetime import datetime
+#from datetime import datetime
 
 
 def demander_confirmation(message):
@@ -28,16 +28,12 @@ def ajouter_livres(books):
     while True:
 
         # On demande d'entrer le nom du livre
-        nom_item = input("Entrez le nom du livre ou ecriver quitter pour quitter: ").strip().title()
-
-        # Vérifie si le nom du livre est vide (added by wansu)
-        if nom_item == "":
-            print("\nErreur:Veuillez entrer un nom de livre valide.\n")
-            continue
+        nom_item = input("Entrez le nom du livre (ou appuyez sur Entrée pour annuler): ").strip().title()
 
         # Si l'utilisateur ne veux plus ajouter de livre, il n'a qu'à écrire 'quitter'
-        elif nom_item.lower() == "quitter":
-            break
+        if nom_item =="":
+            print("\nOpération annulée.")
+            return books
 
         # Ici on collecte les informations du livre dans plusieurs variables
         auteur = input("Entrez le nom de l'auteur du livre: ").strip().title()

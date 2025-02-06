@@ -3,6 +3,7 @@ from books import *
 from users import *
 from loans import *
 from data import *
+from visualizations import *
 
 """
 def main():
@@ -111,10 +112,10 @@ def main():
             books, users, loans = afficher_statistiques(books, users, loans)
 
         elif choix == 8:
-            pass#visualize_loans_by_genre(library)
+            visualize_loans_by_genre(books, loans)
 
         elif choix == 9:
-            pass#visualize_monthly_loans(library)
+            visualize_monthly_loans(loans)
 
 
         elif choix == 10:

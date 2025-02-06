@@ -9,7 +9,7 @@ def demander_confirmation(message):
     # Boucle infinie pour demander une réponse valide
     while True:
         # Demande une réponse à l'utilisateur et la convertit en minuscule
-        response = input(message).lower()
+        response = input(message).strip().lower()
 
         # Si l'utilisateur répond "o", retourner True
         if response == "o":
@@ -19,9 +19,7 @@ def demander_confirmation(message):
             return False
         # Si la réponse est invalide, afficher un message d'erreur
         else:
-            print("Entrée invalide, veuillez répondre par 'o' ou 'n'.")
-
-
+            print("Erreur:Entrée invalide, veuillez répondre par 'o' ou 'n'.")
 
 #Voici la fonction pour ajouter un livre!
 def ajouter_livres(books):
@@ -70,7 +68,7 @@ def ajouter_livres(books):
 
         else:
             #Indique que le livre existe déjà
-            print(f"\nLe livre <{nom_item}> existe déjà dans la bibliothèque.")
+            print(f"\nErreur: Le livre <{nom_item}> existe déjà dans la bibliothèque.")
         print(books)
         return books
 
@@ -88,7 +86,7 @@ def supprimer_livres(books,loans):
         livre_supprimer = input("Quel est le nom du livre a supprimer?: ").strip().title()
         #On verifi pour voir si le livre est dans l'inventaire ou non
         if livre_supprimer not in books:
-            print("Ce livre ne figure pas dans la liste")
+            print("Erreur : Ce livre ne figure pas dans la liste")
         else:
             #Si oui alors le delete et on update l'inventaire
             # Vérifier si le livre est actuellement emprunté
@@ -99,7 +97,7 @@ def supprimer_livres(books,loans):
                     break  # Le livre est emprunté, on sort de la boucle
 
             if livre_emprunté:
-                print(f"Ce livre '{livre_supprimer}' est actuellement emprunté et ne peut pas être supprimé.")
+                print(f"Erreur : Ce livre '{livre_supprimer}' est actuellement emprunté et ne peut pas être supprimé.")
 
             else:
                 # Demande une confirmation avant de supprimer le livre

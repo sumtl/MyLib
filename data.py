@@ -1,5 +1,6 @@
 import csv
 
+"""
 def initialiser_csv():
 
     with open('livres.csv', mode='w', newline='', encoding='utf-8') as file:
@@ -17,6 +18,7 @@ def initialiser_csv():
         writer.writerow(['Utilisateur_ID', 'Livre', 'Date Emprunt', 'Date Retour'])
 
     print("Les fichiers CSV ont bien été initialisés.")
+"""
 
 def sauvegarder_csv(books, users, loans):
 

@@ -134,11 +134,11 @@ def retour_livres(books, users, loans):
         return books, users, loans
 
 def calculate_average_loan_duration_by_genre(books,loans):
-    #print(type(books))----test
+
     #print(books)-----test
     genre_durations = {}
     for loan in loans:
-        if loan["Date_Retour"] is None:
+        if loan["Date_Retour"] =="":
             continue
         book_title = loan["Livre"]
         print(book_title)
@@ -166,7 +166,7 @@ def calculate_average_loan_duration_by_genre(books,loans):
 def list_most_borrowed_books(books):
     if books is None:
         print("Error: La bibliothèque est vide.")
-        return []
+        return books
     borrowed_books = []
     for nom_item in books:
         borrowed_books.append((nom_item,books[nom_item]["Emprunts"]))
@@ -185,7 +185,7 @@ def list_most_borrowed_books(books):
 def list_most_active_users(users):
     if users is None:
         print("Error: Utilisateurs vides.")
-        return []
+        return users
 
     active_users = []
     for user_id, user_info in users.items():
@@ -217,14 +217,14 @@ def afficher_statistiques (books, users, loans):
         if books[book]["Exemplaires"] > 0:
             livres_disponibles += 1
     if livres_disponibles == 0:
-        print("La bibliothèque est vide. Impossible de calculer le pourcentage d'exemplaires actuellement disponibles.")
+        print("Erreur:La bibliothèque est vide. Impossible de calculer le pourcentage d'exemplaires actuellement disponibles.")
         return
     pourcentage_exemplaires_disponibles =  (livres_disponibles / total_livres) * 100
 
     # 4. Nombre moyen de livres empruntés par utilisateur
     total_users = len(users)
     if total_users == 0:
-        print("La bibliothèque est vide. Impossible de calculer le nombre moyen de livres empruntés par utilisateur.")
+        print("Erreur:La bibliothèque est vide. Impossible de calculer le nombre moyen de livres empruntés par utilisateur.")
         return
     moyenne_emprunts_utilisateur = total_empruntes / total_users
 

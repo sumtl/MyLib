@@ -60,7 +60,6 @@ def ajouter_users(users, id_users):
             id_users += 1
             users[id_users] = user_info
 
-
             # Affiche un message confirmant l'ajout de l'utilisateur
             print(f"\nL'utilisateur avec l'ID {id_users}, {nom_user} {prenom_user} a été ajouté avec succès.")
         else:
@@ -73,7 +72,7 @@ def get_valid_user_id(users):
 
     while True:
         # Demande à l'utilisateur d'entrer l'ID
-        user_id_input = input("\nEntrez l'ID de l'utilisateur(ou appuyez sur Entrée pour annuler): ")
+        user_id_input = input("\nEntrez l'ID de l'utilisateur(ou appuyez sur Entrée pour annuler): ").strip()
 
         #  appuie sur Entrée sans rien taper, on annule l'opération
         if user_id_input == "":

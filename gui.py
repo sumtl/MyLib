@@ -80,6 +80,27 @@ class LibraryApp:
 
         ttk.Button(form, text="Ajouter", command=submit).grid(row=len(fields), column=0, columnspan=2, pady=10)
 
+    def show_delete_book_form(self, parent):
+        form = tk.Toplevel(parent)
+        form.title("Supprimer un Livre")
+
+        ttk.Label(form, text="Titre du livre:").pack(pady=5)
+        book_var = tk.StringVar()
+        book_combo = ttk.Combobox(form, textvariable=book_var)
+        book_combo['values'] = list(self.books.keys())
+        book_combo.pack(pady=5)
+
+        def delete():
+            title = book_var.get()
+            if title in self.books:
+                del self.books[title]
+                self.loans = [loan for loan in self.loans if loan['Livre'] != title]
+                sauvegarder_csv(self.books, self.users, self.loans)
+                messagebox.showinfo("Succès", "Livre supprimé avec succès!")
+                form.destroy()
+
+        ttk.Button(form, text="Supprimer", command=delete).pack(pady=10)
+
     def show_delete_user_form(self, parent):
         form = tk.Toplevel(parent)
         form.title("Supprimer un Utilisateur")

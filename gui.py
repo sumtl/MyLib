@@ -42,6 +42,12 @@ class LibraryApp:
             btn = ttk.Button(self.main_frame, text=text, command=command)
             btn.grid(row=idx, column=0, columnspan=2, pady=5, padx=20, sticky="ew")
 
+    # Bouton et fonction pour sauvegarder les fichiers .csv
+    def save_and_quit(self):
+        sauvegarder_csv(self.books, self.users, self.loans)
+        messagebox.showinfo("Succès", "Données sauvegardées avec succès!")
+        self.root.destroy()
+
     def show_books_menu(self):
         dialog = tk.Toplevel(self.root)
         dialog.title("Gestion des Livres")

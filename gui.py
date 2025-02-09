@@ -105,25 +105,53 @@ class LibraryApp:
         form = tk.Toplevel(parent)
         form.title("Supprimer un Utilisateur")
 
-        ttk.Label(form, text="Utilisateur:").pack(pady=5)
+        # Ajout d'un case de recherche
+        search_frame = ttk.Frame(form)
+        search_frame.pack(pady=10)
+
+        ttk.Label(search_frame, text="Rechercher par nom ou ID:").pack(side=tk.LEFT, padx=5)
+        search_var = tk.StringVar()
+        search_entry = ttk.Entry(search_frame, textvariable=search_var)
+        search_entry.pack(side=tk.LEFT, padx=5)
+
+        # Selection d'utilisateur
+        ttk.Label(form, text="Sélectionner l'utilisateur:").pack(pady=5)
         user_var = tk.StringVar()
-        user_combo = ttk.Combobox(form, textvariable=user_var)
-        # Create display values with name and ID
-        user_combo['values'] = [f"{user['Nom']} {user['Prénom']} (ID: {user_id})" for user_id, user in
-                                self.users.items()]
+        user_combo = ttk.Combobox(form, textvariable=user_var, width=50)
+
+        # Limiter la selection a 20, pour pas depasser la limite de l'ecran
+        initial_values = [f"{user['Nom']} {user['Prénom']} (ID: {user_id})"
+                          for user_id, user in list(self.users.items())[:20]]
+        user_combo['values'] = initial_values
         user_combo.pack(pady=5)
+
+        def search_user(*args):
+            search_term = search_var.get().lower()
+            filtered_users = [
+                f"{user['Nom']} {user['Prénom']} (ID: {user_id})"
+                for user_id, user in self.users.items()
+                if search_term in user['Nom'].lower() or
+                   search_term in user['Prénom'].lower() or
+                   search_term in str(user_id).lower()
+            ]
+            # Limit de 20, pour pas depasser la limite de l'ecran
+            user_combo['values'] = filtered_users[:20]
+
+            if filtered_users:
+                user_combo.set(filtered_users[0])
+
+        search_var.trace('w', search_user)
 
         def delete():
             selected = user_var.get()
             if selected:
-                # Extract ID from the selected string
                 user_id = selected.split("(ID: ")[1].rstrip(")")
                 if user_id in self.users:
                     del self.users[user_id]
-                self.loans = [loan for loan in self.loans if loan['Utilisateur_ID'] != user_id]
-                sauvegarder_csv(self.books, self.users, self.loans)
-                messagebox.showinfo("Succès", "Utilisateur supprimé avec succès!")
-                form.destroy()
+                    self.loans = [loan for loan in self.loans if loan['Utilisateur_ID'] != user_id]
+                    sauvegarder_csv(self.books, self.users, self.loans)
+                    messagebox.showinfo("Succès", "Utilisateur supprimé avec succès!")
+                    form.destroy()
 
         ttk.Button(form, text="Supprimer", command=delete).pack(pady=10)
 

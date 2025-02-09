@@ -30,8 +30,6 @@ def get_valid_phone():
             phone_user = f"{phone_user[:3]}-{phone_user[3:6]}-{phone_user[6:]}"
             return phone_user
 
-
-
 # Fonction pour ajouter des utilisateurs
 def ajouter_users(users, id_users):
 

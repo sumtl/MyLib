@@ -46,9 +46,7 @@ def emprunts_livres(books, users, loans):
         if books[nom_emprunts]["Exemplaires"] <= 0:
             print(f"Erreur:Ce livre '{nom_emprunts}' n'est pas disponible actuellement.")
             continue
-        if nom_emprunts in users[user_id]["ListeLivreLu"]:
-            print(f"Erreur : L'utilisateur avec l'ID {user_id} a déjà emprunté le livre '{nom_emprunts}'.")
-            continue
+
             # Enregistrer l'emprunt (date d'emprunt)
         date_emprunt = datetime.now().strftime("%Y-%m-%d")
         emprunt = {
